@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #101317;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
+
+  /* Brand — teal/cyan, evokes "bridge" without Chinese visual cliché */
+  --color-brand-50: #f0fbfa;
+  --color-brand-100: #d7f3f0;
+  --color-brand-200: #b0e6e0;
+  --color-brand-300: #7ed3cb;
+  --color-brand-400: #48b7ae;
+  --color-brand-500: #279d95;
+  --color-brand-600: #18807a;
+  --color-brand-700: #156863;
+  --color-brand-800: #14514e;
+  --color-brand-900: #124441;
+  --color-brand-950: #082625;
+
+  /* Ink — deep navy/slate neutrals for a premium corporate palette */
+  --color-ink-50: #f7f8fa;
+  --color-ink-100: #eef0f3;
+  --color-ink-200: #dde1e7;
+  --color-ink-300: #c2c9d3;
+  --color-ink-400: #98a2b3;
+  --color-ink-500: #717c8f;
+  --color-ink-600: #565f72;
+  --color-ink-700: #414957;
+  --color-ink-800: #2b303b;
+  --color-ink-900: #1b1f27;
+  --color-ink-950: #0e1116;
+
+  /* Amber — used sparingly for a single highlight accent */
+  --color-amber-500: #d97706;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
