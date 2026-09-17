@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons";
 import { contactInfo, whatsappLink } from "@/lib/site-config";
 import { buildMailtoLink } from "@/lib/mailto";
+import { trackEvent } from "@/lib/analytics";
 
 const inputClass =
   "w-full rounded-lg border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100";
@@ -38,6 +39,7 @@ export function ConsultationBookingForm({ plan }: { plan?: string }) {
       ["Notes", String(data.get("notes") || "")],
     ]);
 
+    trackEvent("consultation_booking_submit", { plan: plan || "unspecified" });
     window.location.href = link;
     setSubmitted(true);
   }

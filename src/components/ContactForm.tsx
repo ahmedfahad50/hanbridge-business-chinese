@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons";
 import { chineseLevelOptions, contactInfo, departmentOptions, employeeCountOptions } from "@/lib/site-config";
 import { buildMailtoLink } from "@/lib/mailto";
+import { trackEvent } from "@/lib/analytics";
 
 const inputClass =
   "w-full rounded-lg border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100";
@@ -35,6 +36,7 @@ export function ContactForm({ defaultInterest }: { defaultInterest?: string }) {
       ["Preferred Schedule", String(data.get("preferredSchedule") || "")],
     ]);
 
+    trackEvent("contact_form_submit", { department: String(data.get("department") || "") });
     window.location.href = link;
     setSubmitted(true);
   }

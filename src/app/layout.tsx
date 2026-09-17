@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Analytics } from "@/components/Analytics";
 import { siteConfig } from "@/lib/site-config";
 
 const geistSans = Geist({
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        <Analytics />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

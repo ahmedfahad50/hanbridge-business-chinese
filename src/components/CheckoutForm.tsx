@@ -7,6 +7,7 @@ import { contactInfo } from "@/lib/site-config";
 import type { PricingTier } from "@/lib/site-config";
 import { buildMailtoLink } from "@/lib/mailto";
 import { paymentsEnabled } from "@/lib/payments";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const inputClass =
@@ -34,6 +35,7 @@ export function CheckoutForm({ tiers, initialPlan }: { tiers: PricingTier[]; ini
       ]
     );
 
+    trackEvent("payment_button_click", { plan: selectedTier.id });
     window.location.href = link;
     setSubmitted(true);
   }

@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HanBridge Business Chinese
+
+Corporate marketing website for HanBridge Business Chinese — Business Chinese
+training for global teams. Built with Next.js 16 (App Router), TypeScript and
+Tailwind CSS v4.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing Content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Almost everything on the site — company info, contact details, pricing,
+programs, FAQs, testimonials, teacher bio, resource articles — lives in one
+file:
 
-## Learn More
+```
+src/lib/site-config.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+Edit values there and every page that uses them updates automatically. No
+need to touch component code for routine content changes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Proof & evidence
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/lib/site-config.ts` also holds the Proof & Clients placeholders
+(`clientShowcase`, `communicationExamples`, `testimonials`, `caseStudies`).
+Each entry is marked `isPlaceholder: true` until real, verified evidence is
+supplied — replace the placeholder object with real data once the business
+confirms it can be published. Never invent client names, logos, quotes, or
+statistics.
 
-## Deploy on Vercel
+## Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Copy `.env.example` to `.env.local` and fill in values as they become
+available. Every integration is optional — the site works with none of them
+set:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Real production domain, used for canonical URLs, sitemap and Open Graph tags. |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 Measurement ID. Analytics stays fully disabled until this is set. |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Enables live card payment on `/checkout` once wired up. Until then, checkout collects details and requests an invoice by email. |
+
+## Forms
+
+The Contact, Book a Consultation, and Checkout forms currently submit via a
+pre-filled `mailto:` link to the address in `contactInfo.email`
+(`src/lib/site-config.ts`) — no backend or email service is connected yet.
+To wire up real delivery later (e.g. a Server Action + an email provider like
+Resend), replace the `window.location.href = link` calls in:
+
+- `src/components/ContactForm.tsx`
+- `src/components/ConsultationBookingForm.tsx`
+- `src/components/CheckoutForm.tsx`
+
+## Payments
+
+`/checkout` is built so a real payment provider (Stripe or PayPal) can be
+dropped in later — see `src/lib/payments.ts`. Until
+`NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` is set, the page collects package
+selection and contact details and requests a manual payment link/invoice
+instead of processing a fake charge.
+
+## Analytics
+
+Google Analytics 4 loads only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set
+(`src/components/Analytics.tsx`). Page views are tracked automatically on
+route change; `trackEvent()` from `src/lib/analytics.ts` fires on the three
+real conversion actions: contact form submit, consultation booking submit,
+and payment/checkout request. Search Console verification can be added the
+same way once a real domain is live (either a meta tag in `layout.tsx` or a
+DNS record — no code changes needed for the DNS route).
+
+## Project Structure
+
+```
+src/
+  app/            Routes (App Router)
+  components/     Reusable UI, split into ui/, layout/, home/, and top-level
+                   shared components (ProgramCard, PricingCard, forms, etc.)
+  lib/            site-config.ts (content), analytics.ts, payments.ts, utils
+```
+
+## Scripts
+
+```bash
+npm run dev     # start dev server
+npm run build   # production build
+npm run start   # run the production build
+npm run lint    # eslint
+```
